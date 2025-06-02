@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="productCollectionView" destination="gE8-3A-7ed" id="P8u-aU-Izz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewTypeSegmentedControl" destination="OxL-RU-H1M" id="qml-jL-cyO"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,10 +20,10 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3Lo-7l-Eft">
-                    <rect key="frame" x="16" y="16" width="382" height="704"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="3Lo-7l-Eft">
+                    <rect key="frame" x="16" y="30" width="382" height="690"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="nkg-mF-k1c">
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nkg-mF-k1c">
                             <rect key="frame" x="0.0" y="0.0" width="382" height="40"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="switch View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="URh-Qu-NfF">
@@ -31,26 +32,25 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="XFf-Di-Sbv">
-                                    <rect key="frame" x="279.66666666666669" y="4.6666666666666679" width="102.33333333333331" height="31.000000000000004"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZh-Ud-77a">
-                                            <rect key="frame" x="0.0" y="5.3333333333333321" width="41.333333333333336" height="20.333333333333332"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y1y-xL-hyH">
-                                            <rect key="frame" x="53.333333333333314" y="0.0" width="51" height="31"/>
-                                        </switch>
-                                    </subviews>
-                                </stackView>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="OxL-RU-H1M">
+                                    <rect key="frame" x="100.33333333333334" y="4.6666666666666643" width="281.66666666666663" height="32"/>
+                                    <segments>
+                                        <segment title="Grid"/>
+                                        <segment title="List"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="viewTypeSegmentChanged:" destination="-1" eventType="valueChanged" id="6ca-pj-wGu"/>
+                                    </connections>
+                                </segmentedControl>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="bAS-u6-L9Y"/>
+                            </constraints>
                         </stackView>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="gE8-3A-7ed">
-                            <rect key="frame" x="0.0" y="50" width="382" height="654"/>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="gE8-3A-7ed">
+                            <rect key="frame" x="0.0" y="54" width="382" height="636"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pLB-Mb-JVm">
+                            <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pLB-Mb-JVm">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -61,14 +61,14 @@
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="3Lo-7l-Eft" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="FI4-DG-1N1"/>
-                <constraint firstItem="3Lo-7l-Eft" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="16" id="HtY-Kk-ZTL"/>
+                <constraint firstItem="3Lo-7l-Eft" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="HtY-Kk-ZTL"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="3Lo-7l-Eft" secondAttribute="trailing" constant="16" id="S7D-8N-DcS"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="3Lo-7l-Eft" secondAttribute="bottom" constant="16" id="TsM-vR-SCU"/>
             </constraints>
-            <point key="canvasLocation" x="8" y="21"/>
+            <point key="canvasLocation" x="7.2463768115942031" y="20.380434782608699"/>
         </view>
     </objects>
 </document>

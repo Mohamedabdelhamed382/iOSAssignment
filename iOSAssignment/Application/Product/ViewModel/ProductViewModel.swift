@@ -46,23 +46,17 @@ final class ProductsViewModel: ProductsViewModelProtocol {
 
     // MARK: - Fetch Data
     private func fetchProducts() {
-        guard NetworkMonitor.shared.isConnected else {
-            viewState.send(.error(message: "No internet connection"))
-            return
-        }
-
         viewState.send(.loading)
-        
         networkService.request(endpoint: APIEndpoint.getProducts(limit: 7)) { [weak self] (result: Result<[Product], NetworkError>) in
-            DispatchQueue.main.async {
+            guard let self = self else {return}
                 switch result {
                 case .success(let fetchedProducts):
-                    self?.products.send(fetchedProducts)
-                    self?.viewState.send(.initial)
+                    print("fetchedProducts", fetchedProducts)
+                    self.products.send(fetchedProducts)
+                    self.viewState.send(.initial)
                 case .failure(let error):
-                    self?.viewState.send(.error(message: error.localizedDescription))
+                    self.viewState.send(.error(message: error.localizedDescription))
                 }
-            }
         }
     }
 }

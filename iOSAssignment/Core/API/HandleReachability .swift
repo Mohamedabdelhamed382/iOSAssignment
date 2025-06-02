@@ -19,9 +19,10 @@ class NetworkMonitor {
 
     private init() {
         monitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else {return}
             let connected = path.status == .satisfied
-            self?.isConnected = connected
-            self?.onStatusChange?(connected)
+            self.isConnected = connected
+            self.onStatusChange?(connected)
         }
         monitor.start(queue: queue)
     }

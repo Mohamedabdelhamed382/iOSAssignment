@@ -1,6 +1,15 @@
 {
-  "originHash" : "2689f9e2586b55228eed3965e4be842c098dfc484978323bb9dc0de25d79665c",
+  "originHash" : "8000538546e6ddf50f363ca5b90ddb3cfdcc8e3d83b30e39cbca7d4849490e89",
   "pins" : [
+    {
+      "identity" : "cosmos",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/Cosmos",
+      "state" : {
+        "revision" : "40ba10aaf175bf50abefd0e518bd3b40862af3b1",
+        "version" : "25.0.1"
+      }
+    },
     {
       "identity" : "lottie-spm",
       "kind" : "remoteSourceControl",
