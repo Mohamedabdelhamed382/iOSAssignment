@@ -16,32 +16,35 @@ final class ProductsViewModel: ProductsViewModelProtocol {
     let endRefreshing = PassthroughSubject<Void, Never>()
     let selectedProduct = CurrentValueSubject<Product?, Never>(nil)
     let products = CurrentValueSubject<[Product], Never>([])
-    var cancellable =  Set<AnyCancellable>()
-    var limit = 7
+    
+    var cancellable = Set<AnyCancellable>()
+    private var limit = 7
+    private var canLoadMore = true
 
     // MARK: - Dependencies
     private let networkService: NetworkServiceProtocol
-    
+
     // MARK: - Init
     init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
     }
-    
+
     // MARK: - Input methods
     func didLoad() {
-        fetchProducts()
+        fetchProducts(isRefreshing: true)
     }
 
-    func willAppear() {
-        
+    func refresh() {
+        canLoadMore = true
+        limit = 7
+        fetchProducts(isRefreshing: true)
     }
 
     func collectionViewWillDisplay(index: Int) {
-        
-    }
-    
-    func refresh() {
-        fetchProducts()
+        if index == products.value.count - 1 && canLoadMore {
+            limit += 7
+            fetchProducts(isRefreshing: false)
+        }
     }
 
     func didSelectRowAt(index: Int) {
@@ -50,18 +53,30 @@ final class ProductsViewModel: ProductsViewModelProtocol {
     }
 
     // MARK: - Fetch Data
-    private func fetchProducts() {
+    private func fetchProducts(isRefreshing: Bool) {
         viewState.send(.loading)
         networkService.request(endpoint: APIEndpoint.getProducts(limit: limit)) { [weak self] (result: Result<[Product], NetworkError>) in
-            guard let self = self else {return}
-                switch result {
-                case .success(let fetchedProducts):
-                    viewState.send(.initial)
-                    products.send(fetchedProducts)
-                    endRefreshing.send()
-                case .failure(let error):
-                    self.viewState.send(.error(message: error.localizedDescription))
+            guard let self = self else { return }
+            switch result {
+            case .success(let fetchedProducts):
+                self.viewState.send(.initial)
+                self.endRefreshing.send()
+
+                // Check if new data was added
+                let currentCount = self.products.value.count
+                if isRefreshing {
+                    self.products.send(fetchedProducts)
+                } else {
+                    if fetchedProducts.count > currentCount {
+                        self.products.send(fetchedProducts)
+                    } else {
+                        self.canLoadMore = false // Stop further fetching
+                    }
                 }
+
+            case .failure(let error):
+                self.viewState.send(.error(message: error.localizedDescription))
+            }
         }
     }
 }

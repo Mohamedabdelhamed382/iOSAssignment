@@ -15,6 +15,14 @@ protocol ProductsViewModelInput {
     func refresh()
 }
 
+extension ProductsViewModelInput  {
+    func didLoad() {}
+    func willAppear() {}
+    func collectionViewWillDisplay(index: Int) {}
+    func didSelectRowAt(index: Int) {}
+    func refresh() {}
+}
+
 protocol ProductsViewModelOutput {
     var title: String { get }
     var cancellable: Set<AnyCancellable> {get set}
