@@ -13,10 +13,11 @@ final class ProductsViewModel: ProductsViewModelProtocol {
     // MARK: - Output
     let title: String = "Products"
     let viewState = PassthroughSubject<GeneralViewState, Never>()
+    let endRefreshing = PassthroughSubject<Void, Never>()
     let selectedProduct = CurrentValueSubject<Product?, Never>(nil)
     let products = CurrentValueSubject<[Product], Never>([])
     var cancellable =  Set<AnyCancellable>()
-
+    var limit = 7
 
     // MARK: - Dependencies
     private let networkService: NetworkServiceProtocol
@@ -35,8 +36,12 @@ final class ProductsViewModel: ProductsViewModelProtocol {
         
     }
 
-    func tableWillDisplay(row: Int) {
+    func collectionViewWillDisplay(index: Int) {
         
+    }
+    
+    func refresh() {
+        fetchProducts()
     }
 
     func didSelectRowAt(index: Int) {
@@ -47,13 +52,13 @@ final class ProductsViewModel: ProductsViewModelProtocol {
     // MARK: - Fetch Data
     private func fetchProducts() {
         viewState.send(.loading)
-        networkService.request(endpoint: APIEndpoint.getProducts(limit: 7)) { [weak self] (result: Result<[Product], NetworkError>) in
+        networkService.request(endpoint: APIEndpoint.getProducts(limit: limit)) { [weak self] (result: Result<[Product], NetworkError>) in
             guard let self = self else {return}
                 switch result {
                 case .success(let fetchedProducts):
-                    print("fetchedProducts", fetchedProducts)
-                    self.products.send(fetchedProducts)
-                    self.viewState.send(.initial)
+                    viewState.send(.initial)
+                    products.send(fetchedProducts)
+                    endRefreshing.send()
                 case .failure(let error):
                     self.viewState.send(.error(message: error.localizedDescription))
                 }

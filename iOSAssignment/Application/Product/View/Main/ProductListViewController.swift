@@ -79,6 +79,12 @@ extension ProductListViewController {
                 guard let self = self else { return }
                 self.productCollectionView.reloadData()
             }.store(in: &viewModel.cancellable)
+        
+        viewModel.endRefreshing
+            .sinkOnMain { [weak self] _ in
+                guard let self = self else { return }
+                self.productCollectionView.refreshControl?.endRefreshing()
+            }.store(in: &viewModel.cancellable)
     }
 
     private func bindStoreProperties() {
@@ -151,6 +157,12 @@ extension ProductListViewController {
         productCollectionView.register(UINib(nibName: ProductCollectionViewCell.identifier, bundle: nil),
                                        forCellWithReuseIdentifier: ProductCollectionViewCell.identifier)
         productCollectionView.setCollectionViewLayout(createLayout(for: currentLayout), animated: false)
+        productCollectionView.addRefresh(action: #selector(makeRefresh))
+    }
+    
+    @objc
+    func makeRefresh() {
+        viewModel.refresh()
     }
 }
 
@@ -167,5 +179,13 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         let product = viewModel.products.value[indexPath.row]
         cell.configureCell(model: product)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.collectionViewWillDisplay(index: indexPath.row)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.didSelectRowAt(index: indexPath.row)
     }
 }

@@ -10,8 +10,9 @@ import Combine
 protocol ProductsViewModelInput {
     func didLoad()
     func willAppear()
-    func tableWillDisplay(row: Int)
+    func collectionViewWillDisplay(index: Int)
     func didSelectRowAt(index: Int)
+    func refresh()
 }
 
 protocol ProductsViewModelOutput {
@@ -20,6 +21,7 @@ protocol ProductsViewModelOutput {
     var viewState: PassthroughSubject<GeneralViewState, Never> { get }
     var selectedProduct: CurrentValueSubject<Product?, Never> { get }
     var products: CurrentValueSubject<[Product], Never> { get }
+    var endRefreshing: PassthroughSubject<Void, Never> { get }
 }
 
 typealias ProductsViewModelProtocol = ProductsViewModelInput & ProductsViewModelOutput
