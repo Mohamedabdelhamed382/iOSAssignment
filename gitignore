@@ -1,0 +1,59 @@
+# Xcode
+.DS_Store
+build/
+DerivedData/
+*.xcuserstate
+
+# SwiftPM
+.swiftpm
+.build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+Carthage/Build/
+
+# Accio dependency manager
+Dependencies/
+.accio/
+
+# Xcode project user data
+xcuserdata/
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Archives
+*.xcarchive
+
+# Logs
+*.log
+
+# Package.resolved
+Package.resolved
+
+# Firebase / Crashlytics
+*.dSYM.zip
+*.dSYM
+
+# SwiftLint, Sourcery, and other tools
+.sourcery.yml
+.sourcery/
+.swiftlint.yml
+
+# Environment files
+.env
+
+# Personal local files
+*.local
+
+# Temporary files
+*.tmp
+*.swp
