@@ -15,7 +15,6 @@ class ProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
-    
     static let identifier = "ProductCollectionViewCell"
     
     override func awakeFromNib() {

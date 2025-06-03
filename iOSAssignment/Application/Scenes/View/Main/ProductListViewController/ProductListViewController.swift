@@ -14,11 +14,11 @@ class ProductListViewController: BaseViewController {
     @IBOutlet weak var viewTypeSegmentedControl: UISegmentedControl!
 
     // MARK: - Properties
-    private var viewModel: ProductsViewModelProtocol
+    private var viewModel: ProductsListViewModelProtocol
     private var currentLayout: CollectionLayoutType = .list
 
     // MARK: - Init
-    init(viewModel: ProductsViewModelProtocol) {
+    init(viewModel: ProductsListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -190,6 +190,18 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.didSelectRowAt(index: indexPath.row)
+        let product = viewModel.products.value[indexPath.row]
+        navigateToProductDetails(product: product)
+    }
+}
+
+
+// MARK: - Navigation Methods
+
+extension ProductListViewController {
+    func navigateToProductDetails(product: Product) {
+        let productDetailsViewModel = ProductDetailsViewModel(product: product)
+        let productDetailsViewController = ProductDetailsViewController(viewModel: productDetailsViewModel)
+        navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
 }

@@ -8,13 +8,12 @@
 import Combine
 import Foundation
 
-final class ProductsViewModel: ProductsViewModelProtocol {
+final class ProductsViewModel: ProductsListViewModelProtocol {
     
     // MARK: - Output
     let title: String = "Products"
     let viewState = PassthroughSubject<GeneralViewState, Never>()
     let endRefreshing = PassthroughSubject<Void, Never>()
-    let selectedProduct = CurrentValueSubject<Product?, Never>(nil)
     let products = CurrentValueSubject<[Product], Never>([])
     
     var cancellable = Set<AnyCancellable>()
@@ -45,11 +44,6 @@ final class ProductsViewModel: ProductsViewModelProtocol {
             limit += 7
             fetchProducts(isRefreshing: false)
         }
-    }
-
-    func didSelectRowAt(index: Int) {
-        guard products.value.indices.contains(index) else { return }
-        selectedProduct.send(products.value[index])
     }
 
     // MARK: - Fetch Data

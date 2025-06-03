@@ -19,7 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav = BaseNavigationController(rootViewController: vc)
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
-        
     }
 }
 
