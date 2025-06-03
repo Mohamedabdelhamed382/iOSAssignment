@@ -63,6 +63,19 @@ class ProductListViewController: BaseViewController {
         viewTypeSegmentedControl.insertSegment(withTitle: "Grid", at: 1, animated: false)
         viewTypeSegmentedControl.selectedSegmentIndex = 0
     }
+
+    private func configureProductCollectionView() {
+        productCollectionView.delegate = self
+        productCollectionView.dataSource = self
+        productCollectionView.register(UINib(nibName: ProductCollectionViewCell.identifier, bundle: nil),
+                                       forCellWithReuseIdentifier: ProductCollectionViewCell.identifier)
+        productCollectionView.setCollectionViewLayout(createLayout(for: currentLayout), animated: false)
+        productCollectionView.addRefresh(action: #selector(makeRefresh))
+    }
+
+    @objc func makeRefresh() {
+        viewModel.refresh()
+    }
 }
 
 // MARK: - Binding
@@ -112,6 +125,7 @@ extension ProductListViewController {
                     show(successMessage: message)
                 }
             }.store(in: &viewModel.cancellable)
+        
     }
 }
 
@@ -150,20 +164,6 @@ extension ProductListViewController {
             return UICollectionViewCompositionalLayout(section: section)
         }
     }
-
-    private func configureProductCollectionView() {
-        productCollectionView.delegate = self
-        productCollectionView.dataSource = self
-        productCollectionView.register(UINib(nibName: ProductCollectionViewCell.identifier, bundle: nil),
-                                       forCellWithReuseIdentifier: ProductCollectionViewCell.identifier)
-        productCollectionView.setCollectionViewLayout(createLayout(for: currentLayout), animated: false)
-        productCollectionView.addRefresh(action: #selector(makeRefresh))
-    }
-    
-    @objc
-    func makeRefresh() {
-        viewModel.refresh()
-    }
 }
 
 // MARK: - UICollectionView DataSource & Delegate
@@ -176,15 +176,19 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as? ProductCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let product = viewModel.products.value[indexPath.row]
-        cell.configureCell(model: product)
+
+        if !viewModel.products.value.isEmpty {
+            let product = viewModel.products.value[indexPath.row]
+            cell.configureCell(model: product)
+        }
+
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         viewModel.collectionViewWillDisplay(index: indexPath.row)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.didSelectRowAt(index: indexPath.row)
     }

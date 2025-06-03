@@ -41,7 +41,7 @@ class AlertManager {
     
     //MARK: - Properties -
     func show(message: String, image: UIImage) {
-        self.topAlert.set(message: message, image: image)
+        self.topAlert.set(message: message, type: .image(image))
         self.setupTopViewConstraint()
         self.topAlert.transform = .init(translationX: 0, y: -200)
         let generator = UIImpactFeedbackGenerator(style: .medium)

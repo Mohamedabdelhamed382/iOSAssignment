@@ -1,15 +1,23 @@
 //
-//  LoaderView.swift
+//  TopAlert.swift
 //  App
 //
-//  Created by MGAbouarab on 13/01/2024.
+//  Created by MGAbouarab on 12/01/2024.
 //
 
 import UIKit
 
-final class LoaderView: UIView {
+class TopAlert: UIView {
     
-    @IBOutlet weak private var loaderView: LottieView!
+    enum AlertType {
+        case image(UIImage?)
+        case lottie(fileName: String)
+    }
+    
+    //MARK: - IBOutlets -
+    @IBOutlet weak private var label: UILabel!
+    @IBOutlet weak private var imageView: UIImageView!
+    @IBOutlet weak private var lottieView: LottieView!
     
     //MARK: - Initializer -
     override init(frame: CGRect) {
@@ -32,7 +40,7 @@ final class LoaderView: UIView {
     private func loadViewFromNib() -> UIView {
         
         let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName: "LoaderView", bundle: bundle)
+        let nib = UINib(nibName: "TopAlert", bundle: bundle)
         return nib.instantiate(withOwner: self, options: nil).first as! UIView
         
     }
@@ -41,6 +49,24 @@ final class LoaderView: UIView {
     private func setupInitialDesign() {
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
+        self.tintColor = .black
+    }
+    
+    //MARK: - Data -
+    func set(message: String, type: AlertType) {
+        self.label.text = message
+        switch type {
+        case .image(let image):
+            self.imageView.image = image
+            self.imageView.isHidden = false
+            self.lottieView.isHidden = true
+            
+        case .lottie(let fileName):
+            self.lottieView.animationName = fileName
+            self.imageView.isHidden = true
+            self.lottieView.isHidden = false
+            
+        }
     }
     
     //MARK: - Deinit -

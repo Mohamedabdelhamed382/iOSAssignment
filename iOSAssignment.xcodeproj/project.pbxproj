@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7DC040FE2DED0853000D9D6C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 7DC040FD2DED0853000D9D6C /* Lottie */; };
 		7DF4DF432DEE4FA100EF6810 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = 7DF4DF422DEE4FA100EF6810 /* Cosmos */; };
+		7DF4DF582DEE7FF100EF6810 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 7DF4DF572DEE7FF100EF6810 /* SkeletonView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DF4DF432DEE4FA100EF6810 /* Cosmos in Frameworks */,
+				7DF4DF582DEE7FF100EF6810 /* SkeletonView in Frameworks */,
 				7DC040FE2DED0853000D9D6C /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +144,7 @@
 			packageProductDependencies = (
 				7DC040FD2DED0853000D9D6C /* Lottie */,
 				7DF4DF422DEE4FA100EF6810 /* Cosmos */,
+				7DF4DF572DEE7FF100EF6810 /* SkeletonView */,
 			);
 			productName = iOSAssignment;
 			productReference = 7D6B83D42DEB20C200432D24 /* iOSAssignment.app */;
@@ -228,6 +231,7 @@
 			packageReferences = (
 				7DC040F62DED0244000D9D6C /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				7DF4DF412DEE4EF300EF6810 /* XCRemoteSwiftPackageReference "Cosmos" */,
+				7DF4DF562DEE7FCE00EF6810 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7D6B83D52DEB20C200432D24 /* Products */;
@@ -614,6 +618,14 @@
 				minimumVersion = 25.0.1;
 			};
 		};
+		7DF4DF562DEE7FCE00EF6810 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -626,6 +638,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7DF4DF412DEE4EF300EF6810 /* XCRemoteSwiftPackageReference "Cosmos" */;
 			productName = Cosmos;
+		};
+		7DF4DF572DEE7FF100EF6810 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7DF4DF562DEE7FCE00EF6810 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
