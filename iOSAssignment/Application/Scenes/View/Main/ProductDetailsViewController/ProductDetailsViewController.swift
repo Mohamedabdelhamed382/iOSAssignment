@@ -6,11 +6,19 @@
 //
 
 import UIKit
+import Cosmos
 
 class ProductDetailsViewController: UIViewController {
     
     // MARK: - IBOutlets
-    @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var ratingView: CosmosView!
+    @IBOutlet weak var numberOfReviewsLabel: UILabel!
 
     // MARK: - Properties
     private var viewModel: ProductDetailsViewModelProtocol
@@ -41,8 +49,14 @@ extension ProductDetailsViewController {
     }
     
     private func bindProducts() {
-        productImage.loadImage(from: viewModel.product.image)
-
+        productImageView.loadImage(from: viewModel.product.image)
+        numberLabel.text = viewModel.product.number
+        titleLabel.text = viewModel.product.title
+        priceLabel.text = viewModel.product.priceWithUSD
+        descriptionTextView.text = viewModel.product.description
+        categoryLabel.text = viewModel.product.category
+        ratingView.rating = viewModel.product.ratingValue.rateValue
+        numberOfReviewsLabel.text = viewModel.product.ratingValue.countValue
     }
     
     private func bindStoreProperties() {

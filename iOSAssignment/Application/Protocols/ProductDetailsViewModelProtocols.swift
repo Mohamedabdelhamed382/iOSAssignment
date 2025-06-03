@@ -12,9 +12,7 @@ import Combine
 
 protocol ProductDetailsViewModelOutput {
     var title: String { get }
-    var cancellable: Set<AnyCancellable> { get set }
     var product: Product { get }
-    var viewState: PassthroughSubject<GeneralViewState, Never> { get }
 }
 
 typealias ProductDetailsViewModelProtocol = ViewModelLifecycle & ProductDetailsViewModelOutput
