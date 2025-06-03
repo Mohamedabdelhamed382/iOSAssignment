@@ -26,24 +26,46 @@ class NetworkService: NetworkServiceProtocol {
         completion: @escaping (Result<T, NetworkError>) -> Void
     ) {
         guard isConnected else {
+            print("❌ No internet connection.")
             completion(.failure(.noInternet))
             return
         }
 
         guard let urlRequest = endpoint.asURLRequest() else {
+            print("❌ Invalid URL request.")
             completion(.failure(.invalidURL))
             return
         }
 
+        // 🔍 Print request details
+        print("📤 Request:")
+        print("URL: \(urlRequest.url?.absoluteString ?? "nil")")
+        print("Method: \(urlRequest.httpMethod ?? "nil")")
+        if let headers = urlRequest.allHTTPHeaderFields {
+            print("Headers: \(headers)")
+        }
+        if let body = urlRequest.httpBody,
+           let bodyString = String(data: body, encoding: .utf8) {
+            print("Body: \(bodyString)")
+        }
+
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let err = error {
+                print("❌ Request failed with error: \(err.localizedDescription)")
                 completion(.failure(.unknown(err)))
                 return
             }
 
             guard let httpResponse = response as? HTTPURLResponse else {
+                print("❌ No valid HTTP response.")
                 completion(.failure(.serverError(statusCode: 0)))
                 return
+            }
+
+            print("✅ Response Status Code: \(httpResponse.statusCode)")
+
+            if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                print("📦 Response Body: \(responseString)")
             }
 
             guard (200..<300).contains(httpResponse.statusCode) else {
@@ -60,6 +82,7 @@ class NetworkService: NetworkServiceProtocol {
                 let decoded = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decoded))
             } catch {
+                print("❌ Decoding failed: \(error)")
                 completion(.failure(.decodingError))
             }
         }.resume()

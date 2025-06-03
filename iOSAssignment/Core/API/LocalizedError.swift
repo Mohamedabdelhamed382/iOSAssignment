@@ -11,15 +11,15 @@ extension NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .noInternet:
-            return "لا يوجد اتصال بالإنترنت"
+            return "No internet connection"
         case .invalidURL:
-            return "الرابط غير صالح"
+            return "Invalid URL"
         case .decodingError:
-            return "فشل في تحليل البيانات"
+            return "Failed to parse data"
         case .serverError(let code):
-            return "خطأ في الخادم. الرمز: \(code)"
+            return "Server error. Code: \(code)"
         case .unknown(let err):
-            return "حدث خطأ غير معروف: \(err.localizedDescription)"
+            return "An unknown error occurred: \(err.localizedDescription)"
         }
     }
 }

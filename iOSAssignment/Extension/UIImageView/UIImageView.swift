@@ -8,13 +8,13 @@
 import UIKit
 
 extension UIImageView {
-    func loadImage(from urlString: String, placeholder: UIImage? = nil) {
+    func loadImage(from urlString: String?) {
         // Set placeholder first
-        self.image = placeholder
+        self.image = UIImage(named: "logo")
         
         // Validate and create URL
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL: \(urlString)")
+        guard let urlString = urlString,  let url = URL(string: urlString) else {
+            print("Invalid URL: \(String(describing: urlString))")
             return
         }
 

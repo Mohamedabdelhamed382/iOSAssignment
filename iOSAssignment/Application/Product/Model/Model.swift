@@ -16,6 +16,19 @@ struct Product: Decodable {
     var category: String?
     var image: String?
     var rating: Rating?
+    var priceWithUSD: String  {
+        return String(price ?? 0.0) + "USD"
+    }
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case title
+        case price
+        case description
+        case category
+        case image
+        case rating
+    }
 }
 
 struct Rating: Decodable {

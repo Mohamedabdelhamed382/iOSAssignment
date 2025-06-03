@@ -20,21 +20,14 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
         containerView.layer.cornerRadius = 10
     }
     
     func configureCell(model: Product) {
-        if let image = model.image {
-            productImage.loadImage(from: image, placeholder: UIImage(named: "placeholder"))
-        }
-        
-        if let price = model.price {
-            priceLabel.text = String(price)
-        }
-        
+        productImage.loadImage(from: model.image)
+        priceLabel.text = model.priceWithUSD
         titleLabel.text = model.title
-
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
     }
 }
