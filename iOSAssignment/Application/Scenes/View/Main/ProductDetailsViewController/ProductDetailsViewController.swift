@@ -11,6 +11,8 @@ import Cosmos
 class ProductDetailsViewController: UIViewController {
     
     // MARK: - IBOutlets
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -22,8 +24,7 @@ class ProductDetailsViewController: UIViewController {
 
     // MARK: - Properties
     private var viewModel: ProductDetailsViewModelProtocol
-    private var currentLayout: CollectionLayoutType = .list
-
+    
     // MARK: - Init
     init(viewModel: ProductDetailsViewModelProtocol) {
         self.viewModel = viewModel
@@ -38,6 +39,7 @@ class ProductDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
+        scrollView.delegate = self
     }
 }
 
@@ -62,5 +64,21 @@ extension ProductDetailsViewController {
     private func bindStoreProperties() {
         self.navigationItem.title = viewModel.title
     }
-    
+}
+
+extension ProductDetailsViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let initialHeight: CGFloat = 250
+        let newHeight = max(initialHeight - offsetY, 100)
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+
+        if !(offsetY + height >= contentHeight) {
+            imageHeightConstraint.constant = newHeight
+
+        }
+        
+        view.layoutIfNeeded()
+    }
 }
